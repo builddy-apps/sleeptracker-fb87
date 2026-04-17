@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - SleepWell</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81', 950: '#1e1b4b' },
+                        accent: { 50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9', 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490', 800: '#155e75', 900: '#164e63', 950: '#083344' },
+                        night: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' }
+                    },
+                    boxShadow: { 'glow': '0 0 20px rgba(79, 70, 229, 0.3)', 'glow-sm': '0 0 10px rgba(79, 70, 229, 0.2)', 'glow-accent': '0 0 20px rgba(6, 182, 212, 0.3)' },
+                    animation: { 'fade-in': 'fade-in 0.4s ease-out forwards', 'slide-up': 'slide-up 0.3s ease-out forwards' },
+                    keyframes: { 'fade-in': { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, 'slide-up': { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } } }
+                }
+            }
+        }
+    </script>
+    <style>.stagger-1{animation-delay:0.05s;opacity:0}.stagger-2{animation-delay:0.1s;opacity:0}.stagger-3{animation-delay:0.15s;opacity:0}.stagger-4{animation-delay:0.2s;opacity:0}</style>
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-night-950 transition-colors duration-300">
+    <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-night-800 bg-white/80 dark:bg-night-900/80 backdrop-blur-md">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800 dark:text-slate-100">SleepWell</span>
+                </div>
+                <nav class="flex items-center gap-1">
+                    <button onclick="navigateTo('dashboard')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">Dashboard</button>
+                    <button onclick="navigateTo('log')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">Log</button>
+                    <button onclick="navigateTo('chart')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">Chart</button>
+                    <button onclick="navigateTo('settings')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30 transition-all">Settings</button>
+                </nav>
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">
+                    <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div class="animate-fade-in mb-8">
+            <h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Settings</h1>
+            <p class="text-slate-500 dark:text-slate-400 mt-1">Customize your sleep tracking experience</p>
+        </div>
+
+        <div class="space-y-6">
+            <!-- Sleep Goal Section -->
+            <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-1">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/30 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-primary-600 dark:text-primary-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-medium text-slate-800 dark:text-slate-100">Sleep Goal</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Set your target sleep duration</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-6">
+                    <div class="text-center">
+                        <button onclick="adjustGoal(-15)" class="w-12 h-12 rounded-full border-2 border-slate-200 dark:border-night-700 text-slate-600 dark:text-slate-400 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-all flex items-center justify-center text-xl active:scale-95">
+                            −
+                        </button>
+                    </div>
+                    <div class="flex-1 px-6 text-center">
+                        <div class="flex items-baseline justify-center gap-1">
+                            <span id="goal-hours" class="text-4xl font-bold text-slate-800 dark:text-slate-100">8</span>
+                            <span class="text-xl text-slate-500 dark:text-slate-400">h</span>
+                            <span id="goal-minutes" class="text-4xl font-bold text-slate-800 dark:text-slate-100">00</span>
+                            <span class="text-xl text-slate-500 dark:text-slate-400">m</span>
+                        </div>
+                        <div id="save-status" class="mt-2 text-sm text-emerald-500 font-medium opacity-0 transition-opacity duration-300 flex items-center justify-center gap-1">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            Saved
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button onclick="adjustGoal(15)" class="w-12 h-12 rounded-full border-2 border-slate-200 dark:border-night-700 text-slate-600 dark:text-slate-400 hover:border-primary-500 hover:text-primary-600 dark:hover:text-primary-400 transition-all flex items-center justify-center text-xl active:scale-95">
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative h-2 bg-slate-200 dark:bg-night-700 rounded-full overflow-hidden">
+                    <div id="goal-indicator" class="absolute top-0 left-0 h-full bg-gradient-to-r from-primary-500 to-accent-500 transition-all duration-300" style="width: 50%"></div>
+                    <div class="absolute top-0 left-0 h-full flex justify-between px-1 text-[10px] text-slate-400 leading-2">
+                        <span>4h</span>
+                        <span>8h</span>
+                        <span>12h</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Management Section -->
+            <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-2">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-accent-100 dark:bg-accent-900/30 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-accent-600 dark:text-accent-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-medium text-slate-800 dark:text-slate-100">Data Management</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Export your sleep history</p>
+                    </div>
+                </div>
+
+                <button onclick="exportData()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-slate-100 dark:bg-night-800 text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-200 dark:hover:bg-night-700 transition-all flex items-center justify-center gap-2 group">
+                    <svg class="w-5 h-5 text-slate-500 group-hover:text-primary-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    Export to CSV
+                </button>
+                <p class="mt-2 text-xs text-slate-400 dark:text-slate-500">File includes: Date, Bedtime, Wake Time, Duration, Quality, Notes</p>
+            </div>
+
+            <!-- Display Section -->
+            <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-3">
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-night-800 flex items-center justify-center">
+                        <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-medium text-slate-800 dark:text-slate-100">Display</h2>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">App appearance preferences</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="font-medium text-slate-700 dark:text-slate-200">Dark Mode</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">Use calming night colors</p>
+                    </div>
+                    <button id="dark-mode-toggle" onclick="toggleDarkModeFromSettings()" class="relative w-14 h-8 rounded-full bg-slate-200 dark:bg-primary-600 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 dark:focus:ring-offset-night-900">
+                        <div class="absolute top-1 left-1 w-6 h-6 rounded-full bg-white shadow-sm transform transition-transform duration-300 dark:translate-x-6"></div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-4">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-medium text-slate-800 dark:text-slate-100">About SleepWell</h2>
+                    </div>
+                </div>
+                <div class="space-y-2 text-sm">
+                    <p class="text-slate-600 dark:text-slate-300">SleepWell is your companion for better rest. Track your sleep patterns, visualize your progress, and achieve your goals with a calm, intuitive interface.</p>
+                    <div class="pt-2 border-t border-slate-100 dark:border-night-800 flex justify-between text-slate-500 dark:text-slate-400">
+                        <span>Version 1.0.0</span>
+                        <span>Built with care</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let goalMinutes = 480;
+        const MIN_GOAL = 240; // 4 hours
+        const MAX_GOAL = 720; // 12 hours
+        const STEP = 15;
+        let saveTimeout = null;
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadSleepGoal();
+            updateDarkModeToggle();
+        });
+
+        async function loadSleepGoal() {
+            try {
+                // Load from appState first if available
+                if (appState && appState.settings && appState.settings.sleepGoal) {
+                    goalMinutes = parseInt(appState.settings.sleepGoal, 10);
+                } else {
+                    const res = await apiGet('/api/settings');
+                    if (res.success && res.data) {
+                        const setting = res.data.find(s => s.key === 'sleepGoal');
+                        if (setting) goalMinutes = parseInt(setting.value, 10);
+                    }
+                }
+                updateGoalUI();
+            } catch (e) {
+                console.error('Failed to load settings', e);
+            }
+        }
+
+        function updateGoalUI() {
+            const hours = Math.floor(goalMinutes / 60);
+            const mins = goalMinutes % 60;
+            document.getElementById('goal-hours').textContent = hours;
+            document.getElementById('goal-minutes').textContent = mins.toString().padStart(2, '0');
+            
+            // Update scale (range is 480 minutes from 4h to 12h)
+            const percentage = ((goalMinutes - MIN_GOAL) / (MAX_GOAL - MIN_GOAL)) * 100;
+            document.getElementById('goal-indicator').style.width = `${percentage}%`;
+        }
+
+        function adjustGoal(delta) {
+            const newGoal = goalMinutes + delta;
+            if (newGoal >= MIN_GOAL && newGoal <= MAX_GOAL) {
+                goalMinutes = newGoal;
+                updateGoalUI();
+                debouncedSave();
+            }
+        }
+
+        function debouncedSave() {
+            const status = document.getElementById('save-status');
+            status.style.opacity = '1';
+            status.innerHTML = '<svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...';
+
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(async () => {
+                try {
+                    await apiPut('/api/settings', { key: 'sleepGoal', value: goalMinutes.toString() });
+                    if (appState) appState.settings.sleepGoal = goalMinutes;
+                    status.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Saved';
+                    setTimeout(() => { status.style.opacity = '0'; }, 1500);
+                } catch (e) {
+                    status.innerHTML = '<span class="text-red-500">Failed to save</span>';
+                }
+            }, 800);
+        }
+
+        function exportData() {
+            window.location.href = '/api/export?format=csv';
+        }
+
+        function toggleDarkModeFromSettings() {
+            if (typeof toggleDarkMode === 'function') {
+                toggleDarkMode();
+                updateDarkModeToggle();
+            }
+        }
+
+        function updateDarkModeToggle() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const toggle = document.getElementById('dark-mode-toggle');
+            if (isDark) {
+                toggle.classList.add('bg-primary-600');
+                toggle.classList.remove('bg-slate-200');
+                toggle.querySelector('div').classList.add('translate-x-6');
+            } else {
+                toggle.classList.remove('bg-primary-600');
+                toggle.classList.add('bg-slate-200');
+                toggle.querySelector('div').classList.remove('translate-x-6');
+            }
+        }
+    </script>
+</body>
+</html>

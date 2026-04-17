@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SleepWell - Track Your Rest</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: {
+                            50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc',
+                            400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca',
+                            800: '#3730a3', 900: '#312e81', 950: '#1e1b4b'
+                        },
+                        accent: {
+                            50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9',
+                            400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490',
+                            800: '#155e75', 900: '#164e63', 950: '#083344'
+                        },
+                        quality: {
+                            good: '#4ADE80',
+                            fair: '#FACC15',
+                            poor: '#FB923C',
+                            bad: '#F87171'
+                        },
+                        night: {
+                            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1',
+                            400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155',
+                            800: '#1e293b', 900: '#0f172a', 950: '#020617'
+                        }
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(79, 70, 229, 0.3)',
+                        'glow-sm': '0 0 10px rgba(79, 70, 229, 0.2)',
+                        'glow-accent': '0 0 20px rgba(6, 182, 212, 0.3)'
+                    },
+                    animation: {
+                        'fade-in': 'fade-in 0.4s ease-out forwards',
+                        'slide-up': 'slide-up 0.3s ease-out forwards',
+                        'gentle-pulse': 'gentle-pulse 2s ease-in-out infinite',
+                        'clock-hand-rotate': 'clock-hand-rotate 0.15s ease-out'
+                    },
+                    keyframes: {
+                        'fade-in': { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        'slide-up': { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        'gentle-pulse': { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.7' } },
+                        'clock-hand-rotate': { 'from': { transform: 'rotate(var(--from-angle))' }, 'to': { transform: 'rotate(var(--to-angle))' } }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .stagger-1 { animation-delay: 0.05s; opacity: 0; }
+        .stagger-2 { animation-delay: 0.1s; opacity: 0; }
+        .stagger-3 { animation-delay: 0.15s; opacity: 0; }
+        .stagger-4 { animation-delay: 0.2s; opacity: 0; }
+        .stagger-5 { animation-delay: 0.25s; opacity: 0; }
+        .stagger-6 { animation-delay: 0.3s; opacity: 0; }
+    </style>
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-night-950 transition-colors duration-300">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-night-800 bg-white/80 dark:bg-night-900/80 backdrop-blur-md">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent">SleepWell</span>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <nav class="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-night-800 rounded-lg p-1">
+                    <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
+                        Dashboard
+                    </button>
+                    <button onclick="navigateTo('log')" id="nav-log" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
+                        Log
+                    </button>
+                    <button onclick="navigateTo('chart')" id="nav-chart" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
+                        Chart
+                    </button>
+                    <button onclick="navigateTo('settings')" id="nav-settings" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
+                        Settings
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu & Dark Mode -->
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-night-800 transition-all duration-200 active:scale-95" aria-label="Toggle dark mode">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                        </svg>
+                        <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                        </svg>
+                    </button>
+                    <!-- Mobile nav button -->
+                    <button onclick="toggleMobileNav()" class="sm:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all" aria-label="Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Navigation -->
+            <div id="mobile-nav" class="hidden sm:hidden pb-4">
+                <div class="flex flex-col gap-1 bg-slate-100 dark:bg-night-800 rounded-lg p-2">
+                    <button onclick="navigateTo('dashboard'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Dashboard</button>
+                    <button onclick="navigateTo('log'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Log Sleep</button>
+                    <button onclick="navigateTo('chart'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Chart</button>
+                    <button onclick="navigateTo('settings'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Settings</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 py-8 min-h-[calc(100vh-180px)]">
+        <!-- Content loaded dynamically -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-night-800 bg-white dark:bg-night-900/50">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-6">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-sm text-slate-500 dark:text-slate-400">Rest well, live better. © 2024 SleepWell</p>
+                <div class="flex items-center gap-4 text-sm text-slate-400">
+                    <span class="flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-gentle-pulse"></span>
+                        Tracking your journey
+                    </span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden">
+        <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-glow animate-slide-up">
+            <svg class="w-5 h-5 text-emerald-400 dark:text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+            <span class="text-sm font-medium" id="toast-msg">Action completed</span>
+        </div>
+    </div>
+
+    <!-- App Scripts -->
+    <script src="app.js"></script>
+    <script>
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            navigateTo('dashboard');
+        });
+
+        function toggleMobileNav() {
+            const nav = document.getElementById('mobile-nav');
+            nav.classList.toggle('hidden');
+        }
+
+        function updateNavActive(page) {
+            document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(btn => {
+                if (btn.id === `nav-${page}` || btn.textContent.toLowerCase().includes(page === 'log' ? 'log' : page)) {
+                    btn.classList.add('bg-white', 'dark:bg-night-700', 'text-primary-600', 'dark:text-primary-400', 'shadow-sm');
+                    btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-200', 'dark:hover:bg-night-700');
+                } else {
+                    btn.classList.remove('bg-white', 'dark:bg-night-700', 'text-primary-600', 'dark:text-primary-400', 'shadow-sm');
+                    btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-200', 'dark:hover:bg-night-700');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

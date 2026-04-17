@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SleepWell</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81', 950: '#1e1b4b' }, accent: { 50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9', 400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490', 800: '#155e75', 900: '#164e63', 950: '#083344' }, night: { 50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a', 950: '#020617' } }, boxShadow: { 'glow': '0 0 20px rgba(79, 70, 229, 0.3)', 'glow-sm': '0 0 10px rgba(79, 70, 229, 0.2)', 'glow-accent': '0 0 20px rgba(6, 182, 212, 0.3)' }, animation: { 'fade-in': 'fade-in 0.4s ease-out forwards', 'slide-up': 'slide-up 0.3s ease-out forwards', 'scale-in': 'scale-in 0.3s ease-out forwards' }, keyframes: { 'fade-in': { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, 'slide-up': { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }, 'scale-in': { '0%': { opacity: '0', transform: 'scale(0.95)' }, '100%': { opacity: '1', transform: 'scale(1)' } } } } } }</script>
+    <style>.stagger-1{animation-delay:0.05s;opacity:0}.stagger-2{animation-delay:0.1s;opacity:0}.stagger-3{animation-delay:0.15s;opacity:0}.stagger-4{animation-delay:0.2s;opacity:0}.stagger-5{animation-delay:0.25s;opacity:0}.stagger-6{animation-delay:0.3s;opacity:0}</style>
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-night-950 transition-colors duration-300">
+    <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-night-800 bg-white/80 dark:bg-night-900/80 backdrop-blur-md">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    </div>
+                    <span class="text-xl font-semibold text-slate-800 dark:text-slate-100">SleepWell</span>
+                </div>
+                <nav class="flex items-center gap-1">
+                    <button onclick="navigateTo('dashboard')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/30 transition-all">Dashboard</button>
+                    <button onclick="navigateTo('log')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">Log</button>
+                    <button onclick="navigateTo('chart')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">Chart</button>
+                    <button onclick="navigateTo('settings')" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">Settings</button>
+                </nav>
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-lg flex items-center justify-center text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all">
+                    <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                    <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8">
+        <div id="dashboard-content" class="space-y-6">
+            <div class="animate-fade-in"><h1 class="text-2xl font-semibold text-slate-800 dark:text-slate-100">Sleep Overview</h1><p class="text-slate-500 dark:text-slate-400 mt-1">Track your rest and meet your sleep goals</p></div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-1">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">Last Night</p>
+                            <p id="sleep-duration" class="text-4xl font-bold text-slate-800 dark:text-slate-100 mt-1">--</p>
+                            <div class="flex items-center gap-4 mt-2 text-sm">
+                                <span id="bedtime-display" class="text-slate-600 dark:text-slate-300">--</span>
+                                <span class="text-slate-400">→</span>
+                                <span id="waketime-display" class="text-slate-600 dark:text-slate-300">--</span>
+                            </div>
+                            <p id="goal-comparison" class="text-sm mt-2">--</p>
+                        </div>
+                        <div class="relative">
+                            <svg class="w-32 h-32 transform -rotate-90" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" stroke="currentColor" stroke-width="8" fill="none" class="text-slate-100 dark:text-night-800"/><circle id="progress-ring" cx="60" cy="60" r="54" stroke="url(#gradient)" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="339.292" stroke-dashoffset="339.292" class="transition-all duration-800"/><defs><linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" class="text-primary-500" stop-color="currentColor"/><stop offset="100%" class="text-accent-500" stop-color="currentColor"/></linearGradient></defs></svg>
+                            <div class="absolute inset-0 flex items-center justify-center"><span id="progress-percent" class="text-lg font-semibold text-slate-700 dark:text-slate-200">0%</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 24 24"><path d="M12.5 2C8.364 2 5 5.364 5 9.5c0 3.477 2.428 6.395 5.75 7.206V21l3.5-3 3.5 3v-4.294c3.322-.811 5.75-3.729 5.75-7.206C23 5.364 19.636 2 15.5 2h-3zm1.5 7h1v3h-1v-2h-2v-1h2zm-3 0h1v3h-1v-3zm-3 0h1v3h-1v-3z"/></svg>
+                        </div>
+                        <div><p class="text-sm text-slate-500 dark:text-slate-400">Current Streak</p><p id="current-streak" class="text-2xl font-bold text-slate-800 dark:text-slate-100">0 days</p></div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-slate-100 dark:border-night-800"><p class="text-xs text-slate-400">Best Streak</p><p id="best-streak" class="text-sm font-medium text-slate-600 dark:text-slate-300">0 days</p></div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 animate-slide-up stagger-3">
+                <div class="bg-white dark:bg-night-900 rounded-xl p-4 shadow-sm"><p class="text-xs text-slate-500 dark:text-slate-400">Weekly Avg</p><p id="weekly-avg" class="text-xl font-semibold text-slate-800 dark:text-slate-100 mt-1">--</p></div>
+                <div class="bg-white dark:bg-night-900 rounded-xl p-4 shadow-sm"><p class="text-xs text-slate-500 dark:text-slate-400">Monthly Avg</p><p id="monthly-avg" class="text-xl font-semibold text-slate-800 dark:text-slate-100 mt-1">--</p></div>
+                <div class="bg-white dark:bg-night-900 rounded-xl p-4 shadow-sm"><p class="text-xs text-slate-500 dark:text-slate-400">Best Day</p><p id="best-day" class="text-xl font-semibold text-emerald-600 dark:text-emerald-400 mt-1">--</p></div>
+                <div class="bg-white dark:bg-night-900 rounded-xl p-4 shadow-sm"><p class="text-xs text-slate-500 dark:text-slate-400">Worst Day</p><p id="worst-day" class="text-xl font-semibold text-red-500 dark:text-red-400 mt-1">--</p></div>
+            </div>
+
+            <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-4">
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-4">Sleep Balance</p>
+                <div class="h-6 bg-slate-100 dark:bg-night-800 rounded-full overflow-hidden">
+                    <div id="debt-bar" class="h-full rounded-full transition-all duration-500 w-1/2 bg-gradient-to-r from-emerald-400 to-emerald-500"></div>
+                </div>
+                <p id="debt-label" class="text-sm text-slate-600 dark:text-slate-400 mt-2">Loading...</p>
+            </div>
+
+            <div class="bg-white dark:bg-night-900 rounded-2xl p-6 shadow-sm dark:shadow-glow-sm animate-slide-up stagger-5">
+                <p class="text-sm font-medium text-slate-600 dark:text-slate-400 mb-4">7-Day Trend</p>
+                <canvas id="sparkline" height="80" class="w-full"></canvas>
+            </div>
+        </div>
+
+        <div id="loading-state" class="hidden flex justify-center py-12"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div></div>
+
+        <div id="empty-state" class="hidden text-center py-16">
+            <svg class="w-16 h-16 mx-auto text-slate-300 dark:text-night-700 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+            <h3 class="text-lg font-medium text-slate-700 dark:text-slate-300">No sleep data yet</h3>
+            <p class="text-slate-500 dark:text-slate-400 mt-1 mb-4">Start tracking your sleep to see insights</p>
+            <button onclick="navigateTo('log')" class="px-6 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg font-medium transition-all hover:scale-105">Log Sleep</button>
+        </div>
+    </main>
+
+    <script src="/app.js"></script>
+    <script src="/dashboard.js"></script>
+</body>
+</html>
