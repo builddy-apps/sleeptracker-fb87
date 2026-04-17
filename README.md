@@ -1,20 +1,19 @@
-# SleepWell
+# Aesthetik
 
-A comprehensive sleep tracking app with clock-style time picker, visual sleep charts, goal tracking, streaks, and sleep debt indicators
+An interactive aesthetic explorer and design system playground for browsing, customizing, mixing, and exporting visual styles.
 
-Built with [Builddy](https://builddy.app) — AI-powered app builder using GLM 5.1.
+Built with [Builddy](https://builddy.dev) — AI-powered app builder using GLM 5.1.
 
 ## Features
 
-- Clock-style time picker with draggable hour/minute hands and AM/PM toggle
-- Visual sleep chart with 7/14/30 day views and color-coded quality bars
-- Customizable sleep goal (4-12 hours) with animated circular progress ring
-- Streak tracking for consecutive nights meeting sleep goal
-- Sleep debt/surplus indicator showing cumulative balance
-- Dashboard with weekly averages, best/worst days, and 7-day sparkline
-- Export sleep data to CSV format
-- Dark mode with calming indigo/cyan nighttime color palette
-- Smooth animations for data entry, page transitions, and chart interactions
+- Aesthetic gallery with 6+ curated visual styles
+- Live component showcase with buttons, cards, inputs, typography
+- Real-time customization panel for colors and effects
+- Aesthetic mixer combining elements from different styles
+- Export CSS variables, Tailwind config, and color palettes
+- Randomize button for design inspiration
+- Save and manage favorite combinations
+- Dark mode with system preference detection
 
 ## Quick Start
 

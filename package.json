@@ -1,7 +1,7 @@
 {
-  "name": "sleepwell",
+  "name": "aesthetik",
   "version": "1.0.0",
-  "description": "A comprehensive sleep tracking app with clock-style time picker, visual sleep charts, goal tracking, streaks, and sleep debt indicators",
+  "description": "An interactive aesthetic explorer and design system playground for browsing, customizing, mixing, and exporting visual styles.",
   "type": "module",
   "main": "backend/server.js",
   "scripts": {

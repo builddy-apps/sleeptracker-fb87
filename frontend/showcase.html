@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Showcase - Aesthetik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e', 950: '#082f49' }, accent: { 50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe', 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce', 800: '#6b21a8', 900: '#581c87', 950: '#3b0764' } } } } }</script>
+  <style>@keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes slide-in-right{from{opacity:0;transform:translateX(100%)}to{opacity:1;transform:translateX(0)}}.animate-fade-in{animation:fade-in 0.4s ease-out forwards}.animate-slide-right{animation:slide-in-right 0.3s ease-out forwards}.custom-scrollbar::-webkit-scrollbar{width:6px}.custom-scrollbar::-webkit-scrollbar-track{background:transparent}.custom-scrollbar::-webkit-scrollbar-thumb{background:slate-300 dark:bg-slate-600;border-radius:3px}</style>
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+    <div class="mx-auto max-w-6xl flex items-center justify-between px-4 h-14">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2">
+          <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">Aesthetik</span>
+        </a>
+        <nav class="hidden sm:flex items-center gap-1 ml-6">
+          <a href="/" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Gallery</a>
+          <a href="mixer.html" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Mixer</a>
+          <a href="favorites.html" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Favorites</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleDark()" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-primary-500">
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8 flex gap-6">
+    <aside class="w-60 shrink-0 hidden lg:block sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+      <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm">
+        <h2 id="aesthetic-name" class="text-lg font-bold text-slate-900 dark:text-white truncate">Loading...</h2>
+        <p id="aesthetic-desc" class="text-sm text-slate-500 dark:text-slate-400 mt-2 line-clamp-3">Loading aesthetic details...</p>
+        <div class="mt-4 space-y-2">
+          <button onclick="openDrawer()" class="w-full py-2 px-4 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-sm font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">Customize</button>
+          <button onclick="saveAesthetic()" id="save-btn" class="w-full py-2 px-4 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">Save</button>
+          <div class="relative">
+            <button onclick="document.getElementById('export-menu').classList.toggle('hidden')" class="w-full py-2 px-4 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors flex items-center justify-between">
+              Export <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div id="export-menu" class="hidden absolute z-10 w-full mt-1 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden">
+              <button onclick="exportConfig('css')" class="w-full px-4 py-2 text-sm text-left text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">CSS Variables</button>
+              <button onclick="exportConfig('tailwind')" class="w-full px-4 py-2 text-sm text-left text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Tailwind Config</button>
+              <button onclick="exportConfig('palette')" class="w-full px-4 py-2 text-sm text-left text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700">Palette JSON</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <nav class="mt-4 space-y-1">
+        <a href="#buttons" class="block px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Buttons</a>
+        <a href="#cards" class="block px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Cards</a>
+        <a href="#inputs" class="block px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Inputs</a>
+        <a href="#typography" class="block px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Typography</a>
+      </nav>
+    </aside>
+
+    <div class="flex-1 min-w-0">
+      <div id="showcase-preview" class="animate-fade-in">
+        <section id="buttons" class="mb-10 scroll-mt-24">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Buttons</h3>
+            <button onclick="copySection('buttons')" class="text-xs flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy snippet</button>
+          </div>
+          <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 showcase-section">
+            <div class="flex flex-wrap gap-3">
+              <button class="aesthetic-btn px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95">Primary Button</button>
+              <button class="aesthetic-btn-secondary px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95">Secondary</button>
+              <button class="aesthetic-btn-ghost px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-105 active:scale-95">Ghost</button>
+              <button class="aesthetic-btn-disabled px-4 py-2 rounded-lg text-sm font-medium opacity-50 cursor-not-allowed">Disabled</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="cards" class="mb-10 scroll-mt-24">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Cards</h3>
+            <button onclick="copySection('cards')" class="text-xs flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy snippet</button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 showcase-section">
+            <div class="aesthetic-card rounded-xl overflow-hidden transition-all hover:scale-105">
+              <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=200&fit=crop" class="w-full h-32 object-cover">
+              <div class="p-4">
+                <h4 class="font-bold text-slate-900 dark:text-white">Content Card</h4>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Beautiful card with image and text content.</p>
+              </div>
+            </div>
+            <div class="aesthetic-card p-4 rounded-xl text-center transition-all hover:scale-105">
+              <img src="https://i.pravatar.cc/80?img=1" class="w-16 h-16 rounded-full mx-auto">
+              <h4 class="font-bold text-slate-900 dark:text-white mt-3">Jane Doe</h4>
+              <p class="text-sm text-slate-500 dark:text-slate-400">Designer</p>
+              <div class="flex justify-center gap-4 mt-3 text-sm">
+                <span class="font-bold text-slate-900 dark:text-white">248</span>
+                <span class="text-slate-400">Projects</span>
+              </div>
+            </div>
+            <div class="aesthetic-card p-5 rounded-xl text-center transition-all hover:scale-105">
+              <h4 class="text-2xl font-bold text-slate-900 dark:text-white">$29<span class="text-sm font-normal text-slate-500">/mo</span></h4>
+              <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Pro Plan</p>
+              <button class="aesthetic-btn w-full mt-4 px-4 py-2 rounded-lg text-sm font-medium">Upgrade</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="inputs" class="mb-10 scroll-mt-24">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Inputs</h3>
+            <button onclick="copySection('inputs')" class="text-xs flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy snippet</button>
+          </div>
+          <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 showcase-section">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
+              <input type="text" class="aesthetic-input w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2" placeholder="Enter your name">
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Search</label>
+              <div class="relative">
+                <svg class="w-4 h-4 absolute left-3 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input type="text" class="aesthetic-input w-full pl-9 pr-3 py-2 rounded-lg border focus:outline-none focus:ring-2" placeholder="Search...">
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Message</label>
+              <textarea class="aesthetic-input w-full px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none" rows="3" placeholder="Type your message..."></textarea>
+            </div>
+          </div>
+        </section>
+
+        <section id="typography" class="mb-10 scroll-mt-24">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">Typography</h3>
+            <button onclick="copySection('typography')" class="text-xs flex items-center gap-1 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy snippet</button>
+          </div>
+          <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 space-y-4 showcase-section">
+            <h1 class="aesthetic-h1 text-4xl font-bold text-slate-900 dark:text-white">Heading 1</h1>
+            <h2 class="aesthetic-h2 text-3xl font-bold text-slate-900 dark:text-white">Heading 2</h2>
+            <h3 class="aesthetic-h3 text-2xl font-bold text-slate-900 dark:text-white">Heading 3</h3>
+            <p class="aesthetic-body text-base text-slate-700 dark:text-slate-300">Body text styling for paragraphs and longer content. This is how your default text will appear.</p>
+            <p class="aesthetic-caption text-sm text-slate-500 dark:text-slate-400">Caption or small text for metadata and labels.</p>
+            <code class="aesthetic-code px-2 py-1 rounded text-sm bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200">inline code snippet</code>
+          </div>
+        </section>
+      </div>
+
+      <div id="loading-state" class="hidden flex flex-col items-center justify-center py-16">
+        <div class="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-4">Loading showcase...</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="customizer-drawer" class="fixed inset-y-0 right-0 w-80 bg-white dark:bg-slate-900 shadow-2xl transform translate-x-full transition-transform duration-300 z-50 overflow-y-auto custom-scrollbar">
+    <div class="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-900 z-10">
+      <h3 class="font-bold text-slate-900 dark:text-white">Customize</h3>
+      <button onclick="closeDrawer()" class="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="p-4 space-y-6">
+      <div>
+        <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Colors</h4>
+        <div class="space-y-3">
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Primary</label><input type="color" id="color-primary" class="w-full h-8 rounded cursor-pointer"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Secondary</label><input type="color" id="color-secondary" class="w-full h-8 rounded cursor-pointer"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Accent</label><input type="color" id="color-accent" class="w-full h-8 rounded cursor-pointer"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Background</label><input type="color" id="color-bg" class="w-full h-8 rounded cursor-pointer"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Text</label><input type="color" id="color-text" class="w-full h-8 rounded cursor-pointer"></div>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Effects</h4>
+        <div class="space-y-3">
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Blur: <span id="blur-val">0</span>px</label><input type="range" id="effect-blur" min="0" max="40" class="w-full"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Opacity: <span id="opacity-val">100</span>%</label><input type="range" id="effect-opacity" min="0" max="100" class="w-full"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Shadow</label><select id="effect-shadow" class="w-full px-2 py-1.5 rounded border bg-white dark:bg-slate-800 text-sm"><option value="none">None</option><option value="sm">Small</option><option value="md">Medium</option><option value="lg">Large</option><option value="xl">Extra Large</option></select></div>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">Borders</h4>
+        <div class="space-y-3">
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Radius: <span id="radius-val">0</span>px</label><input type="range" id="border-radius" min="0" max="32" class="w-full"></div>
+          <div><label class="text-xs text-slate-500 dark:text-slate-400">Width: <span id="border-width-val">0</span>px</label><input type="range" id="border-width" min="0" max="8" class="w-full"></div>
+        </div>
+      </div>
+      <button onclick="resetCustomizer()" class="w-full py-2 px-4 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Reset to Defaults</button>
+    </div>
+  </div>
+
+  <div id="drawer-backdrop" class="fixed inset-0 bg-black/50 hidden z-40" onclick="closeDrawer()"></div>
+
+  <script src="app.js"></script>
+  <script src="customizer.js"></script>
+  <script>
+    let currentConfig = null;
+    const urlParams = new URLSearchParams(window.location.search);
+
+    async function loadAesthetic(id) {
+      try {
+        document.getElementById('showcase-preview').classList.add('hidden');
+        document.getElementById('loading-state').classList.remove('hidden');
+        
+        const res = await API.get(`/api/aesthetics/${id}`);
+        if (res.success) {
+          currentConfig = res.data;
+          State.setAesthetic(currentConfig);
+          document.getElementById('aesthetic-name').textContent = currentConfig.name;
+          document.getElementById('aesthetic-desc').textContent = currentConfig.description;
+          applyAesthetic(currentConfig);
+        }
+      } catch (err) {
+        Toast.error('Failed to load aesthetic: ' + err.message);
+      } finally {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('showcase-preview').classList.remove('hidden');
+      }
+    }
+
+    function applyAesthetic(config) {
+      const p = config.palette || {};
+      const e = config.effects || {};
+      const b = config.borders || {};
+      
+      document.documentElement.style.setProperty('--aesthetic-primary', p.primary || '#0ea5e9');
+      document.documentElement.style.setProperty('--aesthetic-secondary', p.secondary || '#64748b');
+      document.documentElement.style.setProperty('--aesthetic-accent', p.accent || '#a855f7');
+      document.documentElement.style.setProperty('--aesthetic-bg', p.bg || '#ffffff');
+      document.documentElement.style.setProperty('--aesthetic-text', p.text || '#0f172a');
+      document.documentElement.style.setProperty('--aesthetic-blur', `${e.blur || 0}px`);
+      document.documentElement.style.setProperty('--aesthetic-opacity', `${e.opacity || 100}%`);
+      document.documentElement.style.setProperty('--aesthetic-radius', `${b.radius || 8}px`);
+      document.documentElement.style.setProperty('--aesthetic-border-width', `${b.width || 1}px`);
+      
+      const btns = document.querySelectorAll('.aesthetic-btn');
+      btns.forEach(btn => {
+        btn.style.backgroundColor = `var(--aesthetic-primary)`;
+        btn.style.color = `var(--aesthetic-bg)`;
+      });
+      
+      document.querySelectorAll('.aesthetic-btn-secondary').forEach(btn => {
+        btn.style.backgroundColor = `var(--aesthetic-secondary)`;
+        btn.style.color = `var(--aesthetic-text)`;
+      });
+      
+      document.querySelectorAll('.aesthetic-btn-ghost').forEach(btn => {
+        btn.style.backgroundColor = 'transparent';
+        btn.style.color = `var(--aesthetic-primary)`;
+        btn.style.border = `1px solid var(--aesthetic-primary)`;
+      });
+      
+      document.querySelectorAll('.aesthetic-card').forEach(card => {
+        card.style.backgroundColor = `var(--aesthetic-bg)`;
+        card.style.borderRadius = `var(--aesthetic-radius)`;
+        card.style.borderWidth = `var(--aesthetic-border-width)`;
+        card.style.borderColor = `var(--aesthetic-secondary)`;
+        card.style.boxShadow = e.shadow === 'none' ? 'none' : `0 4px 12px rgba(0,0,0,${e.opacity ? (100 - e.opacity) / 200 : 0.1})`;
+      });
+      
+      document.querySelectorAll('.aesthetic-input').forEach(input => {
+        input.style.backgroundColor = `var(--aesthetic-bg)`;
+        input.style.borderColor = `var(--aesthetic-secondary)`;
+        input.style.color = `var(--aesthetic-text)`;
+        input.style.borderRadius = `var(--aesthetic-radius)`;
+      });
+      
+      document.querySelectorAll('.aesthetic-h1, .aesthetic-h2, .aesthetic-h3').forEach(h => {
+        h.style.color = `var(--aesthetic-text)`;
+      });
+    }
+
+    function openDrawer() {
+      if (!currentConfig) return;
+      document.getElementById('customizer-drawer').classList.remove('translate-x-full');
+      document.getElementById('drawer-backdrop').classList.remove('hidden');
+      
+      document.getElementById('color-primary').value = currentConfig.palette.primary;
+      document.getElementById('color-secondary').value = currentConfig.palette.secondary;
+      document.getElementById('color-accent').value = currentConfig.palette.accent;
+      document.getElementById('color-bg').value = currentConfig.palette.bg;
+      document.getElementById('color-text').value = currentConfig.palette.text;
+      document.getElementById('effect-blur').value = currentConfig.effects.blur;
+      document.getElementById('blur-val').textContent = currentConfig.effects.blur;
+      document.getElementById('effect-opacity').value = currentConfig.effects.opacity;
+      document.getElementById('opacity-val').textContent = currentConfig.effects.opacity;
+      document.getElementById('effect-shadow').value = currentConfig.effects.shadow;
+      document.getElementById('border-radius').value = currentConfig.borders.radius;
+      document.getElementById('radius-val').textContent = currentConfig.borders.radius;
+      document.getElementById('border-width').value = currentConfig.borders.width;
+      document.getElementById('border-width-val').textContent = currentConfig.borders.width;
+    }
+
+    function closeDrawer() {
+      document.getElementById('customizer-drawer').classList.add('translate-x-full');
+      document.getElementById('drawer-backdrop').classList.add('hidden');
+    }
+
+    function resetCustomizer() {
+      if (!currentConfig) return;
+      currentConfig = State.currentAesthetic;
+      applyAesthetic(currentConfig);
+    }
+
+    async function saveAesthetic() {
+      if (!currentConfig) return;
+      const name = prompt('Enter a name for this aesthetic:');
+      if (!name) return;
+      
+      try {
+        const res = await API.post('/api/favorites', {
+          name,
+          tags: ['customized'],
+          aesthetic_config: currentConfig
+        });
+        if (res.success) {
+          Toast.success('Aesthetic saved successfully!');
+          document.getElementById('save-btn').textContent = 'Saved ✓';
+          setTimeout(() => document.getElementById('save-btn').textContent = 'Save', 2000);
+        }
+      } catch (err) {
+        Toast.error('Failed to save: ' + err.message);
+      }
+    }
+
+    async function exportConfig(format) {
+      if (!currentConfig) return;
+      document.getElementById('export-menu').classList.add('hidden');
+      
+      try {
+        const res = await API.post('/api/export', { config: currentConfig, format });
+        if (res.success) {
+          navigator.clipboard.writeText(res.data);
+          Toast.success(`${format.toUpperCase()} copied to clipboard!`);
+        }
+      } catch (err) {
+        Toast.error('Export failed: ' + err.message);
+      }
+    }
+
+    function copySection(sectionId) {
+      const section = document.getElementById(sectionId);
+      const clone = section.cloneNode(true);
+      clone.querySelectorAll('button[onclick]').forEach(btn => btn.remove());
+      const html = clone.querySelector('.showcase-section').innerHTML;
+      navigator.clipboard.writeText(html.trim());
+      Toast.success('Snippet copied to clipboard!');
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const id = urlParams.get('id') || '1';
+      loadAesthetic(id);
+      
+      document.querySelectorAll('#customizer-drawer input[type="range"], #customizer-drawer input[type="color"], #customizer-drawer select').forEach(input => {
+        input.addEventListener('input', (e) => {
+          const val = e.target.value;
+          if (e.target.type === 'range') {
+            document.getElementById(`${e.target.id.replace('effect-', '').replace('border-', '')}-val`).textContent = val;
+          }
+          if (currentConfig) {
+            if (e.target.id.includes('color-')) {
+              const key = e.target.id.replace('color-', '');
+              currentConfig.palette[key] = val;
+            } else if (e.target.id.includes('effect-')) {
+              const key = e.target.id.replace('effect-', '');
+              currentConfig.effects[key] = key === 'shadow' ? val : parseInt(val);
+            } else if (e.target.id.includes('border-')) {
+              const key = e.target.id.replace('border-', '');
+              currentConfig.borders[key] = parseInt(val);
+            }
+            applyAesthetic(currentConfig);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

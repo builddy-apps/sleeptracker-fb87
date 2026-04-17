@@ -1,148 +1,149 @@
-// Shared State
-const appState = {
-    settings: { sleepGoal: 480 },
-    async loadSettings() {
-        try {
-            const res = await apiGet('/api/settings');
-            if (res.success && res.data) {
-                res.data.forEach(s => {
-                    try {
-                        this.settings[s.key] = JSON.parse(s.value);
-                    } catch { this.settings[s.key] = s.value; }
-                });
-            }
-        } catch (e) { console.error('Failed to load settings'); }
+// Dark Mode Management
+function initDarkMode() {
+  const stored = localStorage.getItem('darkMode');
+  const system = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  
+  if (stored === 'true' || (stored === null && system)) {
+    document.documentElement.classList.add('dark');
+  }
+}
+
+function toggleDark() {
+  document.documentElement.classList.toggle('dark');
+  localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+}
+
+// API Helper Class
+class API {
+  static async fetch(url, options = {}) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    
+    try {
+      const res = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+          ...options.headers
+        }
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({ error: res.statusText }));
+        throw new Error(err.error || err.message || 'Request failed');
+      }
+      
+      return await res.json();
+    } catch (err) {
+      if (err.name === 'AbortError') {
+        throw new Error('Request timeout');
+      }
+      throw err;
     }
+  }
+  
+  static async get(url) { return this.fetch(url); }
+  
+  static async post(url, data) {
+    return this.fetch(url, {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  }
+  
+  static async del(url) {
+    return this.fetch(url, { method: 'DELETE' });
+  }
+}
+
+// Toast Notification System
+const Toast = {
+  container: null,
+  
+  init() {
+    this.container = document.createElement('div');
+    this.container.className = 'fixed bottom-4 right-4 z-50 flex flex-col gap-2';
+    document.body.appendChild(this.container);
+  },
+  
+  show(message, type = 'info', duration = 3000) {
+    if (!this.container) this.init();
+    
+    const colors = {
+      success: 'bg-green-500 text-white',
+      error: 'bg-red-500 text-white',
+      info: 'bg-slate-800 dark:bg-slate-700 text-white'
+    };
+    
+    const toast = document.createElement('div');
+    toast.className = `${colors[type]} px-4 py-3 rounded-lg shadow-lg text-sm font-medium transform transition-all duration-300 translate-x-full`;
+    toast.textContent = message;
+    
+    this.container.appendChild(toast);
+    
+    requestAnimationFrame(() => {
+      toast.classList.remove('translate-x-full');
+    });
+    
+    setTimeout(() => {
+      toast.classList.add('opacity-0', 'translate-x-full');
+      setTimeout(() => toast.remove(), 300);
+    }, duration);
+  },
+  
+  success(msg, dur) { this.show(msg, 'success', dur); },
+  error(msg, dur) { this.show(msg, 'error', dur); },
+  info(msg, dur) { this.show(msg, 'info', dur); }
 };
 
-// Dark Mode
-function initDarkMode() {
-    const saved = localStorage.getItem('darkMode');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (saved === 'true' || (!saved && prefersDark)) {
-        document.documentElement.classList.add('dark');
+// Page Transition Helper
+async function navigateTo(url) {
+  document.body.classList.add('opacity-0', 'transition-opacity', 'duration-200');
+  await new Promise(r => setTimeout(r, 200));
+  window.location.href = url;
+}
+
+function fadeIn() {
+  document.body.classList.remove('opacity-0');
+  document.body.classList.add('transition-opacity', 'duration-300');
+}
+
+// Shared State
+const State = {
+  currentAesthetic: null,
+  history: [],
+  
+  setAesthetic(aesthetic) {
+    this.history.push(this.currentAesthetic);
+    this.currentAesthetic = aesthetic;
+  },
+  
+  undo() {
+    if (this.history.length > 0) {
+      this.currentAesthetic = this.history.pop();
+      return this.currentAesthetic;
     }
-}
+    return null;
+  }
+};
 
-function toggleDarkMode() {
-    document.documentElement.classList.toggle('dark');
-    localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
-}
-
-// API Helpers
-async function apiGet(url) {
-    try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
-    } catch (err) {
-        showToast(err.message, 'error');
-        throw err;
+// Randomize Function
+async function randomizeAesthetic() {
+  try {
+    const res = await API.post('/api/aesthetics/randomize');
+    if (res.success) {
+      State.setAesthetic(res.data);
+      return res.data;
     }
+  } catch (err) {
+    Toast.error('Failed to randomize: ' + err.message);
+  }
+  return null;
 }
 
-async function apiPost(url, data) {
-    try {
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
-    } catch (err) {
-        showToast('Request failed', 'error');
-        throw err;
-    }
-}
-
-async function apiPut(url, data) {
-    try {
-        const res = await fetch(url, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-        });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return await res.json();
-    } catch (err) {
-        showToast('Update failed', 'error');
-        throw err;
-    }
-}
-
-// Toast Notification
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('toast');
-    const msg = document.getElementById('toast-msg');
-    const icon = toast.querySelector('svg');
-    
-    msg.textContent = message;
-    toast.classList.remove('hidden');
-    
-    if (type === 'error') {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>';
-        icon.classList.replace('text-emerald-400', 'text-red-400');
-        icon.classList.replace('dark:text-emerald-600', 'dark:text-red-600');
-    } else {
-        icon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>';
-        icon.classList.replace('text-red-400', 'text-emerald-400');
-        icon.classList.replace('dark:text-red-600', 'dark:text-emerald-600');
-    }
-    
-    setTimeout(() => toast.classList.add('hidden'), 3000);
-}
-
-// Navigation Controller
-let currentPage = null;
-
-async function navigateTo(pageName) {
-    if (currentPage === pageName) return;
-    const main = document.getElementById('main-content');
-    const fileName = pageName === 'log' ? 'log-sleep' : pageName;
-    
-    main.classList.remove('animate-fade-in');
-    main.innerHTML = '<div class="flex justify-center py-12"><div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600"></div></div>';
-    
-    try {
-        const res = await fetch(`/${fileName}.html`);
-        if (!res.ok) throw new Error('Page not found');
-        
-        main.innerHTML = await res.text();
-        main.classList.add('animate-fade-in');
-        
-        const script = document.createElement('script');
-        script.src = `/${fileName}.js`;
-        main.appendChild(script);
-        
-        currentPage = pageName;
-        if (typeof updateNavActive === 'function') updateNavActive(pageName);
-        
-    } catch (err) {
-        main.innerHTML = `<div class="text-center text-red-500 py-12">Failed to load ${pageName}</div>`;
-    }
-}
-
-// Date Helpers
-function formatDate(dateStr) {
-    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-
-function formatMinutes(mins) {
-    const h = Math.floor(mins / 60);
-    const m = mins % 60;
-    return `${h}h ${m}m`;
-}
-
-function calculateDuration(bedtime, wakeTime) {
-    const [bh, bm] = bedtime.split(':').map(Number);
-    const [wh, wm] = wakeTime.split(':').map(Number);
-    let diff = (wh * 60 + wm) - (bh * 60 + bm);
-    return diff <= 0 ? diff + 1440 : diff;
-}
-
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-window.appState = appState;
+// Initialize on load
+initDarkMode();
+fadeIn();

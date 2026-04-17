@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Favorites - Aesthetik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e', 950: '#082f49' }, accent: { 50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe', 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce', 800: '#6b21a8', 900: '#581c87', 950: '#3b0764' } } } } }</script>
+  <style>@keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes scale-in{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}@keyframes slide-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.animate-fade-in{animation:fade-in 0.4s ease-out forwards}.animate-scale-in{animation:scale-in 0.2s ease-out forwards}.animate-slide-up{animation:slide-up 0.3s ease-out forwards}.stagger-1{animation-delay:0.05s;opacity:0}.stagger-2{animation-delay:0.1s;opacity:0}.stagger-3{animation-delay:0.15s;opacity:0}.stagger-4{animation-delay:0.2s;opacity:0}.stagger-5{animation-delay:0.25s;opacity:0}.custom-scrollbar::-webkit-scrollbar{width:6px}.custom-scrollbar::-webkit-scrollbar-track{background:transparent}.custom-scrollbar::-webkit-scrollbar-thumb{background:slate-300 dark:bg-slate-600;border-radius:3px}</style>
+</head>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+    <div class="mx-auto max-w-6xl flex items-center justify-between px-4 h-14">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2">
+          <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">Aesthetik</span>
+        </a>
+        <nav class="hidden sm:flex items-center gap-1 ml-6">
+          <a href="/" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Gallery</a>
+          <a href="mixer.html" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Mixer</a>
+          <a href="favorites.html" class="px-3 py-1.5 text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-950 rounded-md">Favorites</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleDark()" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-primary-500">
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-6xl px-4 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Favorites</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Your saved aesthetic combinations</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="relative">
+          <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          <input type="text" id="search-input" placeholder="Search by name..." oninput="filterFavorites()" class="w-48 sm:w-64 pl-9 pr-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-primary-500 focus:border-transparent">
+        </div>
+        <select id="sort-select" onchange="filterFavorites()" class="px-3 py-2 text-sm bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 focus:ring-2 focus:ring-primary-500">
+          <option value="newest">Newest</option>
+          <option value="oldest">Oldest</option>
+          <option value="alphabetical">A-Z</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <aside class="lg:col-span-1">
+        <div class="bg-white dark:bg-slate-900 rounded-xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm sticky top-24">
+          <h3 class="text-sm font-semibold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-4">Filter by Tags</h3>
+          <div id="tag-cloud" class="flex flex-wrap gap-2">
+            <span class="text-sm text-slate-400 dark:text-slate-500">Loading tags...</span>
+          </div>
+          <button onclick="clearTagFilter()" class="mt-4 text-sm text-primary-600 dark:text-primary-400 hover:underline hidden" id="clear-tags-btn">Clear filter</button>
+        </div>
+      </aside>
+
+      <div class="lg:col-span-3">
+        <div id="favorites-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="space-y-4 animate-pulse">
+            <div class="h-56 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+            <div class="h-56 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+          </div>
+        </div>
+
+        <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 px-4 animate-fade-in">
+          <div class="w-20 h-20 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+            <svg class="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white">No favorites yet</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 text-center max-w-sm">Save your favorite aesthetic combinations to access them later.</p>
+          <a href="/" class="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg text-sm font-medium hover:bg-primary-700 transition-colors">Explore Gallery</a>
+        </div>
+
+        <div id="no-results" class="hidden flex flex-col items-center justify-center py-16 px-4 animate-fade-in">
+          <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+            <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+          </div>
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white">No results found</h3>
+          <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Try adjusting your search or filter criteria.</p>
+        </div>
+
+        <div id="error-state" class="hidden animate-fade-in">
+          <div class="bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 rounded-xl p-4 flex items-center gap-3">
+            <svg class="w-5 h-5 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div>
+              <p class="font-medium text-red-800 dark:text-red-300">Failed to load favorites</p>
+              <p class="text-sm text-red-600 dark:text-red-400 mt-0.5" id="error-message">Please try again later.</p>
+            </div>
+            <button onclick="loadFavorites()" class="ml-auto px-3 py-1.5 text-sm font-medium text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900 rounded-lg hover:bg-red-200 dark:hover:bg-red-800 transition-colors">Retry</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="delete-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-xl shadow-2xl max-w-sm w-full p-6 animate-scale-in">
+      <div class="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/50 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-900 dark:text-white text-center">Delete Favorite?</h3>
+      <p class="text-sm text-slate-500 dark:text-slate-400 text-center mt-2">This action cannot be undone. Are you sure you want to delete <span id="delete-name" class="font-medium text-slate-700 dark:text-slate-300"></span>?</p>
+      <div class="flex gap-3 mt-6">
+        <button onclick="closeDeleteModal()" class="flex-1 py-2 px-4 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">Cancel</button>
+        <button onclick="confirmDelete()" class="flex-1 py-2 px-4 bg-red-600 text-white rounded-lg text-sm font-medium hover:bg-red-700 transition-colors">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    let favorites = [];
+    let allTags = new Set();
+    let selectedTag = null;
+    let deleteTargetId = null;
+
+    async function loadFavorites() {
+      try {
+        const res = await API.get('/api/favorites');
+        if (res.success) {
+          favorites = res.data;
+          extractTags();
+          filterFavorites();
+        }
+      } catch (err) {
+        document.getElementById('error-state').classList.remove('hidden');
+        document.getElementById('error-message').textContent = err.message;
+        document.getElementById('favorites-grid').classList.add('hidden');
+      }
+    }
+
+    function extractTags() {
+      allTags.clear();
+      favorites.forEach(f => {
+        if (f.tags && Array.isArray(f.tags)) {
+          f.tags.forEach(tag => allTags.add(tag));
+        }
+      });
+      renderTagCloud();
+    }
+
+    function renderTagCloud() {
+      const container = document.getElementById('tag-cloud');
+      if (allTags.size === 0) {
+        container.innerHTML = '<span class="text-sm text-slate-400 dark:text-slate-500">No tags yet</span>';
+        return;
+      }
+      
+      container.innerHTML = Array.from(allTags).map(tag => `
+        <button onclick="selectTag('${tag}')" class="tag-btn px-3 py-1.5 text-xs font-medium rounded-full transition-all ${selectedTag === tag ? 'bg-primary-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700'}">
+          ${tag}
+        </button>
+      `).join('');
+    }
+
+    function selectTag(tag) {
+      selectedTag = selectedTag === tag ? null : tag;
+      renderTagCloud();
+      document.getElementById('clear-tags-btn').classList.toggle('hidden', !selectedTag);
+      filterFavorites();
+    }
+
+    function clearTagFilter() {
+      selectedTag = null;
+      renderTagCloud();
+      document.getElementById('clear-tags-btn').classList.add('hidden');
+      filterFavorites();
+    }
+
+    function filterFavorites() {
+      const search = document.getElementById('search-input').value.toLowerCase();
+      const sort = document.getElementById('sort-select').value;
+      
+      let filtered = favorites.filter(f => {
+        const matchesSearch = f.name.toLowerCase().includes(search);
+        const matchesTag = !selectedTag || (f.tags && f.tags.includes(selectedTag));
+        return matchesSearch && matchesTag;
+      });
+
+      if (sort === 'newest') {
+        filtered.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      } else if (sort === 'oldest') {
+        filtered.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      } else if (sort === 'alphabetical') {
+        filtered.sort((a, b) => a.name.localeCompare(b.name));
+      }
+
+      renderFavorites(filtered);
+    }
+
+    function renderFavorites(items) {
+      const container = document.getElementById('favorites-grid');
+      const emptyState = document.getElementById('empty-state');
+      const noResults = document.getElementById('no-results');
+      const errorState = document.getElementById('error-state');
+
+      errorState.classList.add('hidden');
+      container.classList.remove('hidden');
+
+      if (favorites.length === 0) {
+        container.classList.add('hidden');
+        emptyState.classList.remove('hidden');
+        noResults.classList.add('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+
+      if (items.length === 0) {
+        container.innerHTML = '';
+        noResults.classList.remove('hidden');
+        return;
+      }
+
+      noResults.classList.add('hidden');
+
+      container.innerHTML = items.map((f, i) => {
+        const palette = f.aesthetic_config?.palette || {};
+        const p = palette.primary || '#0ea5e9';
+        const s = palette.secondary || '#64748b';
+        const a = palette.accent || '#a855f7';
+        const bg = palette.bg || '#f8fafc';
+        const t = palette.text || '#0f172a';
+        const date = new Date(f.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        const tags = f.tags || [];
+        const delay = (i % 5) + 1;
+
+        return `
+          <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition-all hover:scale-[1.02] animate-fade-in stagger-${delay}" data-id="${f.id}">
+            <div class="p-5">
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold text-slate-900 dark:text-white truncate">${f.name}</h3>
+                  <p class="text-xs text-slate-400 dark:text-slate-500 mt-1">${date}</p>
+                </div>
+                <div class="w-12 h-12 rounded-lg flex items-center justify-center" style="background: ${bg}; color: ${t}">
+                  <div class="w-6 h-3 rounded" style="background: ${p}"></div>
+                </div>
+              </div>
+              
+              <div class="flex gap-1.5 mb-4 h-6">
+                <div class="w-full rounded-full" style="background: ${p}"></div>
+                <div class="w-full rounded-full" style="background: ${s}"></div>
+                <div class="w-full rounded-full" style="background: ${a}"></div>
+                <div class="w-full rounded-full" style="background: ${bg}"></div>
+                <div class="w-full rounded-full" style="background: ${t}"></div>
+              </div>
+
+              ${tags.length > 0 ? `
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                  ${tags.slice(0, 3).map(tag => `<span class="px-2 py-0.5 text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">${tag}</span>`).join('')}
+                  ${tags.length > 3 ? `<span class="px-2 py-0.5 text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 rounded-full">+${tags.length - 3}</span>` : ''}
+                </div>
+              ` : '<div class="mb-4"></div>'}
+
+              <div class="flex gap-2">
+                <button onclick="loadFavorite(${f.id})" class="flex-1 py-2 px-3 bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 rounded-lg text-xs font-medium hover:bg-slate-800 dark:hover:bg-slate-200 transition-colors">Load</button>
+                <button onclick="duplicateFavorite(${f.id})" class="py-2 px-3 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-400 rounded-lg text-xs font-medium hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" title="Duplicate">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                </button>
+                <button onclick="openDeleteModal(${f.id})" class="py-2 px-3 border border-slate-200 dark:border-slate-700 text-red-600 dark:text-red-400 rounded-lg text-xs font-medium hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors" title="Delete">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function loadFavorite(id) {
+      const favorite = favorites.find(f => f.id === id);
+      if (favorite) {
+        localStorage.setItem('loadedAesthetic', JSON.stringify(favorite.aesthetic_config));
+        localStorage.setItem('loadedFromFavorite', favorite.name);
+        navigateTo('showcase.html');
+      }
+    }
+
+    async function duplicateFavorite(id) {
+      const favorite = favorites.find(f => f.id === id);
+      if (!favorite) return;
+
+      try {
+        const res = await API.post('/api/favorites', {
+          name: `${favorite.name} (Copy)`,
+          tags: favorite.tags,
+          aesthetic_config: favorite.aesthetic_config
+        });
+        if (res.success) {
+          Toast.success('Favorite duplicated!');
+          await loadFavorites();
+        }
+      } catch (err) {
+        Toast.error('Failed to duplicate: ' + err.message);
+      }
+    }
+
+    function openDeleteModal(id) {
+      const favorite = favorites.find(f => f.id === id);
+      if (!favorite) return;
+      
+      deleteTargetId = id;
+      document.getElementById('delete-name').textContent = favorite.name;
+      document.getElementById('delete-modal').classList.remove('hidden');
+    }
+
+    function closeDeleteModal() {
+      deleteTargetId = null;
+      document.getElementById('delete-modal').classList.add('hidden');
+    }
+
+    async function confirmDelete() {
+      if (!deleteTargetId) return;
+
+      try {
+        const res = await API.del(`/api/favorites/${deleteTargetId}`);
+        if (res.success) {
+          Toast.success('Favorite deleted');
+          closeDeleteModal();
+          await loadFavorites();
+        }
+      } catch (err) {
+        Toast.error('Failed to delete: ' + err.message);
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDeleteModal();
+    });
+
+    loadFavorites();
+  </script>
+</body>
+</html>

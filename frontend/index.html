@@ -1,189 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SleepWell - Track Your Rest</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        primary: {
-                            50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc',
-                            400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca',
-                            800: '#3730a3', 900: '#312e81', 950: '#1e1b4b'
-                        },
-                        accent: {
-                            50: '#ecfeff', 100: '#cffafe', 200: '#a5f3fc', 300: '#67e8f9',
-                            400: '#22d3ee', 500: '#06b6d4', 600: '#0891b2', 700: '#0e7490',
-                            800: '#155e75', 900: '#164e63', 950: '#083344'
-                        },
-                        quality: {
-                            good: '#4ADE80',
-                            fair: '#FACC15',
-                            poor: '#FB923C',
-                            bad: '#F87171'
-                        },
-                        night: {
-                            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1',
-                            400: '#94a3b8', 500: '#64748b', 600: '#475569', 700: '#334155',
-                            800: '#1e293b', 900: '#0f172a', 950: '#020617'
-                        }
-                    },
-                    boxShadow: {
-                        'glow': '0 0 20px rgba(79, 70, 229, 0.3)',
-                        'glow-sm': '0 0 10px rgba(79, 70, 229, 0.2)',
-                        'glow-accent': '0 0 20px rgba(6, 182, 212, 0.3)'
-                    },
-                    animation: {
-                        'fade-in': 'fade-in 0.4s ease-out forwards',
-                        'slide-up': 'slide-up 0.3s ease-out forwards',
-                        'gentle-pulse': 'gentle-pulse 2s ease-in-out infinite',
-                        'clock-hand-rotate': 'clock-hand-rotate 0.15s ease-out'
-                    },
-                    keyframes: {
-                        'fade-in': { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        'slide-up': { '0%': { opacity: '0', transform: 'translateY(16px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-                        'gentle-pulse': { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.7' } },
-                        'clock-hand-rotate': { 'from': { transform: 'rotate(var(--from-angle))' }, 'to': { transform: 'rotate(var(--to-angle))' } }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        .stagger-1 { animation-delay: 0.05s; opacity: 0; }
-        .stagger-2 { animation-delay: 0.1s; opacity: 0; }
-        .stagger-3 { animation-delay: 0.15s; opacity: 0; }
-        .stagger-4 { animation-delay: 0.2s; opacity: 0; }
-        .stagger-5 { animation-delay: 0.25s; opacity: 0; }
-        .stagger-6 { animation-delay: 0.3s; opacity: 0; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aesthetik - Design System Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { 50: '#f0f9ff', 100: '#e0f2fe', 200: '#bae6fd', 300: '#7dd3fc', 400: '#38bdf8', 500: '#0ea5e9', 600: '#0284c7', 700: '#0369a1', 800: '#075985', 900: '#0c4a6e', 950: '#082f49' }, accent: { 50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe', 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce', 800: '#6b21a8', 900: '#581c87', 950: '#3b0764' } } } } }</script>
+  <style>@keyframes fade-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}@keyframes scale-in{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}.animate-fade-in{animation:fade-in 0.4s ease-out forwards}.animate-scale-in{animation:scale-in 0.2s ease-out forwards}.animate-shimmer{background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.1) 50%,transparent 100%);background-size:200% 100%;animation:shimmer 1.5s infinite}.stagger-1{animation-delay:0.05s;opacity:0}.stagger-2{animation-delay:0.1s;opacity:0}.stagger-3{animation-delay:0.15s;opacity:0}.stagger-4{animation-delay:0.2s;opacity:0}.stagger-5{animation-delay:0.25s;opacity:0}</style>
 </head>
-<body class="min-h-screen bg-slate-50 dark:bg-night-950 transition-colors duration-300">
-    <!-- Header -->
-    <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-night-800 bg-white/80 dark:bg-night-900/80 backdrop-blur-md">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6">
-            <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-accent-500 flex items-center justify-center shadow-glow-sm">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                        </svg>
-                    </div>
-                    <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-500 bg-clip-text text-transparent">SleepWell</span>
-                </div>
+<body class="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors">
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md">
+    <div class="mx-auto max-w-6xl flex items-center justify-between px-4 h-14">
+      <div class="flex items-center gap-3">
+        <a href="/" class="flex items-center gap-2">
+          <span class="text-xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">Aesthetik</span>
+        </a>
+        <nav class="hidden sm:flex items-center gap-1 ml-6">
+          <a href="#" class="px-3 py-1.5 text-sm font-medium text-primary-600 dark:text-primary-400 bg-primary-50 dark:bg-primary-950 rounded-md">Gallery</a>
+          <a href="mixer.html" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Mixer</a>
+          <a href="favorites.html" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Favorites</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleDark()" class="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors focus:ring-2 focus:ring-primary-500">
+          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
 
-                <!-- Navigation Tabs -->
-                <nav class="hidden sm:flex items-center gap-1 bg-slate-100 dark:bg-night-800 rounded-lg p-1">
-                    <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
-                        Dashboard
-                    </button>
-                    <button onclick="navigateTo('log')" id="nav-log" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
-                        Log
-                    </button>
-                    <button onclick="navigateTo('chart')" id="nav-chart" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
-                        Chart
-                    </button>
-                    <button onclick="navigateTo('settings')" id="nav-settings" class="nav-btn px-4 py-1.5 text-sm font-medium rounded-md transition-all duration-200">
-                        Settings
-                    </button>
-                </nav>
+  <div id="welcome-banner" class="mx-auto max-w-6xl px-4 pt-4">
+    <div class="relative bg-gradient-to-r from-primary-600 to-accent-600 rounded-xl p-4 text-white animate-fade-in">
+      <button onclick="document.getElementById('welcome-banner').remove()" class="absolute top-2 right-2 p-1 rounded-md hover:bg-white/20 transition-colors">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+      <p class="font-medium">Welcome to Aesthetik! Explore curated visual styles or mix your own. Press <kbd class="px-1.5 py-0.5 bg-white/20 rounded text-xs font-mono">Spacebar</kbd> for random inspiration.</p>
+    </div>
+  </div>
 
-                <!-- Mobile Menu & Dark Mode -->
-                <div class="flex items-center gap-2">
-                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-night-800 transition-all duration-200 active:scale-95" aria-label="Toggle dark mode">
-                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-                        </svg>
-                        <svg class="w-5 h-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
-                        </svg>
-                    </button>
-                    <!-- Mobile nav button -->
-                    <button onclick="toggleMobileNav()" class="sm:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-night-800 transition-all" aria-label="Menu">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Mobile Navigation -->
-            <div id="mobile-nav" class="hidden sm:hidden pb-4">
-                <div class="flex flex-col gap-1 bg-slate-100 dark:bg-night-800 rounded-lg p-2">
-                    <button onclick="navigateTo('dashboard'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Dashboard</button>
-                    <button onclick="navigateTo('log'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Log Sleep</button>
-                    <button onclick="navigateTo('chart'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Chart</button>
-                    <button onclick="navigateTo('settings'); toggleMobileNav()" class="mobile-nav-btn px-4 py-2 text-sm font-medium rounded-md text-left transition-all">Settings</button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content Area -->
-    <main id="main-content" class="mx-auto max-w-6xl px-4 sm:px-6 py-8 min-h-[calc(100vh-180px)]">
-        <!-- Content loaded dynamically -->
-    </main>
-
-    <!-- Footer -->
-    <footer class="border-t border-slate-200 dark:border-night-800 bg-white dark:bg-night-900/50">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-6">
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                <p class="text-sm text-slate-500 dark:text-slate-400">Rest well, live better. © 2024 SleepWell</p>
-                <div class="flex items-center gap-4 text-sm text-slate-400">
-                    <span class="flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-gentle-pulse"></span>
-                        Tracking your journey
-                    </span>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 z-50 hidden">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-glow animate-slide-up">
-            <svg class="w-5 h-5 text-emerald-400 dark:text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-            </svg>
-            <span class="text-sm font-medium" id="toast-msg">Action completed</span>
-        </div>
+  <main class="mx-auto max-w-6xl px-4 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Aesthetic Gallery</h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">Browse and explore beautiful design systems</p>
+      </div>
+      <div class="flex items-center gap-2 text-xs text-slate-400">
+        <span class="hidden sm:inline">Press</span>
+        <kbd class="px-2 py-1 bg-slate-100 dark:bg-slate-800 rounded font-mono text-slate-600 dark:text-slate-300">Space</kbd>
+        <span class="hidden sm:inline">to randomize</span>
+      </div>
     </div>
 
-    <!-- App Scripts -->
-    <script src="app.js"></script>
-    <script>
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', () => {
-            initDarkMode();
-            navigateTo('dashboard');
-        });
+    <div id="gallery-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="space-y-4 animate-pulse">
+        <div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+        <div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+        <div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+      </div>
+    </div>
 
-        function toggleMobileNav() {
-            const nav = document.getElementById('mobile-nav');
-            nav.classList.toggle('hidden');
+    <div id="empty-state" class="hidden flex flex-col items-center justify-center py-16 px-4 animate-fade-in">
+      <div class="w-16 h-16 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mb-4">
+        <svg class="w-8 h-8 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"/></svg>
+      </div>
+      <h3 class="text-lg font-semibold text-slate-900 dark:text-white">No aesthetics found</h3>
+      <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 text-center max-w-sm">Check back later for new curated styles.</p>
+    </div>
+
+    <div id="error-state" class="hidden animate-fade-in">
+      <div class="bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800 rounded-xl p-4 flex items-center gap-3">
+        <svg class="w-5 h-5 text-red-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <div>
+          <p class="font-medium text-red-800 dark:text-red-300">Failed to load aesthetics</p>
+          <p class="text-sm text-red-600 dark:text-red-400 mt-0.5" id="error-message">Please try again later.</p>
+        </div>
+        <button onclick="loadAesthetics()" class="ml-auto px-3 py-1.5 text-sm font-medium text-red-700 dark:text-red-300 bg-red-100 dark:bg-red-900 rounded-lg hover:bg-red-200 dark:hover:bg-red-800 transition-colors">Retry</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast" class="fixed bottom-4 right-4 z-50 hidden">
+    <div class="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg animate-slide-up">
+      <svg class="w-5 h-5 text-emerald-400 dark:text-emerald-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+      <span class="text-sm font-medium" id="toast-msg">Action completed</span>
+    </div>
+  </div>
+
+  <script>
+    function toggleDark() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 3000);
+    }
+
+    async function loadAesthetics() {
+      const container = document.getElementById('gallery-container');
+      const empty = document.getElementById('empty-state');
+      const error = document.getElementById('error-state');
+      
+      try {
+        container.innerHTML = '<div class="col-span-3 space-y-4 animate-pulse"><div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div><div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div><div class="h-48 bg-slate-200 dark:bg-slate-800 rounded-xl"></div></div>';
+        empty.classList.add('hidden');
+        error.classList.add('hidden');
+
+        const res = await fetch('/api/aesthetics');
+        if (!res.ok) throw new Error('Failed to fetch');
+        const { data } = await res.json();
+
+        if (!data || data.length === 0) {
+          empty.classList.remove('hidden');
+          container.innerHTML = '';
+          return;
         }
 
-        function updateNavActive(page) {
-            document.querySelectorAll('.nav-btn, .mobile-nav-btn').forEach(btn => {
-                if (btn.id === `nav-${page}` || btn.textContent.toLowerCase().includes(page === 'log' ? 'log' : page)) {
-                    btn.classList.add('bg-white', 'dark:bg-night-700', 'text-primary-600', 'dark:text-primary-400', 'shadow-sm');
-                    btn.classList.remove('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-200', 'dark:hover:bg-night-700');
-                } else {
-                    btn.classList.remove('bg-white', 'dark:bg-night-700', 'text-primary-600', 'dark:text-primary-400', 'shadow-sm');
-                    btn.classList.add('text-slate-600', 'dark:text-slate-400', 'hover:bg-slate-200', 'dark:hover:bg-night-700');
-                }
-            });
-        }
-    </script>
+        container.innerHTML = data.map((a, i) => `
+          <a href="showcase.html?id=${a.id}" class="group block animate-fade-in stagger-${(i % 5) + 1}">
+            <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-4 shadow-sm hover:shadow-lg hover:border-primary-300 dark:hover:border-primary-700 transition-all duration-200 hover:scale-[1.03]">
+              <div class="flex gap-3 mb-4 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg" style="background: linear-gradient(135deg, ${a.palette.bg} 0%, ${a.palette.secondary} 100%);">
+                <button class="px-3 py-1.5 text-xs font-medium rounded-md" style="background:${a.palette.primary};color:${a.palette.text}">Button</button>
+                <div class="flex-1 p-2 rounded border" style="background:${a.palette.primary};border-color:${a.palette.secondary};opacity:0.9"></div>
+              </div>
+              <div class="flex items-start justify-between">
+                <div class="flex-1 min-w-0">
+                  <h3 class="font-semibold text-slate-900 dark:text-white truncate">${a.name}</h3>
+                  <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2">${a.description}</p>
+                </div>
+                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-700 dark:text-primary-300 shrink-0 ml-2">${a.category}</span>
+              </div>
+              <div class="flex items-center gap-1.5 mt-3">
+                <div class="w-6 h-6 rounded-full border border-slate-200 dark:border-slate-700" style="background:${a.palette.primary}" title="Primary"></div>
+                <div class="w-6 h-6 rounded-full border border-slate-200 dark:border-slate-700" style="background:${a.palette.secondary}" title="Secondary"></div>
+                <div class="w-6 h-6 rounded-full border border-slate-200 dark:border-slate-700" style="background:${a.palette.accent}" title="Accent"></div>
+              </div>
+            </div>
+          </a>
+        `).join('');
+      } catch (err) {
+        console.error(err);
+        error.classList.remove('hidden');
+        document.getElementById('error-message').textContent = err.message;
+        container.innerHTML = '';
+      }
+    }
+
+    async function goToRandom() {
+      try {
+        const res = await fetch('/api/aesthetics/randomize', { method: 'POST' });
+        if (!res.ok) throw new Error('Failed to generate');
+        const { data } = await res.json();
+        showToast('Generated random mix!');
+        localStorage.setItem('mixedAesthetic', JSON.stringify(data));
+        window.location.href = `showcase.html?mixed=true`;
+      } catch (err) {
+        showToast('Failed to generate random aesthetic');
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        goToRandom();
+      }
+    });
+
+    loadAesthetics();
+  </script>
 </body>
 </html>
